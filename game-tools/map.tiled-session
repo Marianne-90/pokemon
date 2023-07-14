@@ -1,14 +1,61 @@
 {
-    "recentFiles": [
-        "palletTown.json",
+    "activeFile": "map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Basic Grass Biom things 1.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        },
+        "Collision.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Free Chicken Sprites.tsx": {
+            "scaleInDock": 5.5,
+            "scaleInEditor": 1
+        },
+        "Free_Chicken_House.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Grass.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Pokemon Style Game.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Tilled Dirt.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "bunny.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "map.tmx": {
+            "scale": 4,
+            "selectedLayer": 12,
+            "viewCenter": {
+                "x": 420,
+                "y": 239.875
+            }
+        },
+        "palletTown.json": {
+            "scale": 1,
+            "selectedLayer": 12,
+            "viewCenter": {
+                "x": 42,
+                "y": 7
+            }
+        }
+    },
+    "openFiles": [
         "Collision.tsx",
         "map.tmx",
-        "Free Chicken Sprites.tsx",
-        "Pokemon Style Game.tsx",
-        "Free_Chicken_House.tsx",
-        "bunny.tsx",
-        "Basic Grass Biom things 1.tsx",
-        "Tilled Dirt.tsx",
-        "Grass.tsx"
-    ]
+        "palletTown.json"
+    ],
+    "project": "map.tiled-project"
 }
