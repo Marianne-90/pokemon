@@ -1,11 +1,4 @@
 {
-    "Map/SizeTest": {
-        "height": 4300,
-        "width": 2
-    },
-    "activeFile": "map.tmx",
-    "expandedProjectPaths": [
-    ],
     "fileStates": {
         "Basic Grass Biom things 1.tsx": {
             "scaleInDock": 3,
@@ -40,11 +33,11 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 4,
-            "selectedLayer": 12,
+            "scale": 1,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 420,
-                "y": 239.875
+                "x": 413,
+                "y": 264
             }
         },
         "palletTown.json": {
@@ -56,18 +49,6 @@
             }
         }
     },
-    "last.imagePath": "C:/Users/Wera/Documents/Developer/JS-Vanilla/games/game-tools/Sprout Lands - Sprites - Basic pack/Characters",
-    "map.height": 40,
-    "map.lastUsedFormat": "json",
-    "map.tileHeight": 12,
-    "map.tileWidth": 12,
-    "map.width": 70,
-    "openFiles": [
-        "Collision.tsx",
-        "map.tmx",
-        "palletTown.json"
-    ],
-    "project": "map.tiled-project",
     "recentFiles": [
         "Collision.tsx",
         "palletTown.json",
@@ -79,10 +60,5 @@
         "Basic Grass Biom things 1.tsx",
         "Tilled Dirt.tsx",
         "Grass.tsx"
-    ],
-    "tileset.lastUsedFormat": "tsx",
-    "tileset.tileSize": {
-        "height": 12,
-        "width": 12
-    }
+    ]
 }
