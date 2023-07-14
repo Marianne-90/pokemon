@@ -8,7 +8,7 @@
     ],
     "fileStates": {
         "Basic Grass Biom things 1.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "Collision.tsx": {
@@ -20,6 +20,7 @@
             "scaleInEditor": 1
         },
         "Free_Chicken_House.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "Grass.tsx": {
@@ -27,7 +28,7 @@
             "scaleInEditor": 1
         },
         "Pokemon Style Game.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "Tilled Dirt.tsx": {
@@ -39,40 +40,45 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 1,
-            "selectedLayer": 1,
+            "scale": 4,
+            "selectedLayer": 12,
             "viewCenter": {
-                "x": 398,
-                "y": 217
+                "x": 420,
+                "y": 239.875
+            }
+        },
+        "palletTown.json": {
+            "scale": 1,
+            "selectedLayer": 12,
+            "viewCenter": {
+                "x": 420,
+                "y": 240.5
             }
         }
     },
     "last.imagePath": "C:/Users/Wera/Documents/Developer/JS-Vanilla/games/game-tools/Sprout Lands - Sprites - Basic pack/Characters",
     "map.height": 40,
-    "map.lastUsedFormat": "tmx",
+    "map.lastUsedFormat": "json",
     "map.tileHeight": 12,
     "map.tileWidth": 12,
     "map.width": 70,
     "openFiles": [
-        "map.tmx",
-        "Tilled Dirt.tsx",
-        "Basic Grass Biom things 1.tsx",
-        "bunny.tsx",
         "Collision.tsx",
-        "Grass.tsx",
-        "Pokemon Style Game.tsx"
+        "map.tmx",
+        "palletTown.json"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "Collision.tsx",
+        "palletTown.json",
+        "map.tmx",
         "Free Chicken Sprites.tsx",
         "Pokemon Style Game.tsx",
         "Free_Chicken_House.tsx",
-        "Collision.tsx",
         "bunny.tsx",
         "Basic Grass Biom things 1.tsx",
         "Tilled Dirt.tsx",
-        "Grass.tsx",
-        "map.tmx"
+        "Grass.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
