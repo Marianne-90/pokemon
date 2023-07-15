@@ -14,9 +14,14 @@ for (let i = 0; i < collitions.length; i += 70) {
 const boundaries = [];
 
 //*! esto es lo que movemos el mapa para que no se comience a dibujar desde la esquina 0,0 si no desde la casita
+// const offset = {
+//   x: -1000,
+//   y: -820,
+// };
+
 const offset = {
-  x: -1000,
-  y: -820,
+  x: -100,
+  y:-700,
 };
 
 //*! en esta parte vamos a primero dividir los líneas y o sea las 40 columnas hacia abajo
@@ -40,22 +45,22 @@ collitionsMap.forEach((row, i) => {
 });
 
 const image = new Image();
-image.src = "./img/map/mapBase.png";
+image.src = "./img/mapBase.png";
 
 const foregroundObjsImage = new Image();
-foregroundObjsImage.src = "./img/map/foregroundObjects.png";
+foregroundObjsImage.src = "./img/foregroundObjects.png";
 
 const playerDownImage = new Image();
-playerDownImage.src = "./img/playerDown.png";
+playerDownImage.src = "./img/player/playerDown.png";
 
 const playerUpImage = new Image();
-playerUpImage.src = "./img/playerUp.png";
+playerUpImage.src = "./img/player/playerUp.png";
 
 const playerRightImage = new Image();
-playerRightImage.src = "./img/playerRight.png";
+playerRightImage.src = "./img/player/playerRight.png";
 
 const playerLeftImage = new Image();
-playerLeftImage.src = "./img/playerLeft.png";
+playerLeftImage.src = "./img/player/playerLeft.png";
 
 const player = new Sprite({
   position: {
