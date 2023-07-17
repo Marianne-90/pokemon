@@ -14,24 +14,6 @@ class Sprite {
   }
 
   draw() {
-    // if (this.image.src === "http://127.0.0.1:5501/img/mapBase.png") {
-    //   console.log(this.position.x, this.position.y);
-    //   c.drawImage(
-    //     this.image,
-    //     //*argumentos para cortar
-    //     this.frames.val * this.width,
-    //     0,
-    //     this.image.width / this.frames.max,
-    //     this.image.height,
-    //     //* fin de argumentos para cortar
-    //     this.position.x,
-    //     this.position.y,
-    //     //* tamaño de la imagen achicado para que no se alarge
-    //     this.image.width / this.frames.max,
-    //     this.image.height
-    //   );
-    //   return;
-    // }
 
     c.drawImage(
       this.image,

@@ -11,17 +11,19 @@ for (let i = 0; i < collitions.length; i += 70) {
   collitionsMap.push(collitions.slice(i, i + 70));
 }
 
+const battleZonesMap = [];
+//*! estamos haciendo el mismo proceso que en los límites
+for (let i = 0; i < battleZonesData.length; i += 70) {
+  battleZonesMap.push(battleZonesData.slice(i, i + 70));
+}
+
 const boundaries = [];
 
 //*! esto es lo que movemos el mapa para que no se comience a dibujar desde la esquina 0,0 si no desde la casita
-// const offset = {
-//   x: -1000,
-//   y: -820,
-// };
 
 const offset = {
   x: -100,
-  y:-700,
+  y: -700,
 };
 
 //*! en esta parte vamos a primero dividir los líneas y o sea las 40 columnas hacia abajo
@@ -33,6 +35,25 @@ collitionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     if (symbol === 1025) {
       boundaries.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+        })
+      );
+    }
+  });
+});
+
+//*! lo mismo que los límites pero para battle zone
+
+const battleZones = [];
+
+battleZonesMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    if (symbol === 1025) {
+      battleZones.push(
         new Boundary({
           position: {
             x: j * Boundary.width + offset.x,
@@ -122,7 +143,7 @@ const keys = {
   },
 };
 
-const movables = [background, foregroundObjs, ...boundaries];
+const movables = [background, foregroundObjs, ...boundaries, ...battleZones];
 
 const rectangularCollition = ({ rectangle1, rectangle2 }) => {
   return (
@@ -131,6 +152,10 @@ const rectangularCollition = ({ rectangle1, rectangle2 }) => {
     rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
     rectangle1.position.y >= rectangle2.position.y - rectangle2.height
   );
+};
+
+const battle = {
+  initiated: false,
 };
 
 const animate = () => {
@@ -143,15 +168,60 @@ const animate = () => {
     boundary.draw();
   });
 
+  //*! lo mismo pero para las zonas de batalla
+
+  battleZones.forEach((battleZone) => {
+    battleZone.draw();
+  });
+
   player.draw();
   foregroundObjs.draw();
 
-  let moving = true; // los límites comienza como que sí se puede movel al menos que toque un límite
+  let moving = true; // los límites comienza como que sí se puede mover al menos que toque un límite
   player.moving = false;
+
+  //*! detener toda esta animación si inició una batalla
+  if (battle.initiated) return;
+
+  //ACTIVATE BATTLE
+
+  //*! esto es para detectar si cualquiera de las teclas está dentro de el battle zone y así evitas copiar y pegar código en cada tecla
+  if (keys.w.pressed || keys.a.pressed || keys.d.pressed || keys.s.pressed) {
+    for (let i = 0; i < battleZones.length; i++) {
+      const battleZone = battleZones[i];
+      const overlappingArea =
+        (Math.min(
+          player.position.x + player.width,
+          battleZone.position.x + battleZone.width
+        ) -
+          Math.max(player.position.x, battleZone.position.x)) * //*! esta primera parte  nos va a dar el ancho de el rectángulo que surge de la colición de las dos figuras
+        (Math.min(
+          player.position.y + player.height,
+          battleZone.position.y + battleZone.height
+        ) -
+          Math.max(player.position.y, battleZone.position.y)); //*! lo mismo pero con la altura y con eso se calcula el rectángulo que a su vez debe ser mayor a la mitad del área para activarse como lo indica el if statement más adelante
+      if (
+        rectangularCollition({
+          rectangle1: player,
+          rectangle2: battleZone,
+        }) &&
+        overlappingArea > (player.width * player.height) / 2 && // se divide entre dos para que sea el tamaño del personaje a la mitad lo que debe de rebazar y no el personaje completo
+        Math.random() < 0.02 //* esto es para que no siempre ocurra la batalla si no que de cierta forma sea un evento inusual
+      ) {
+        console.log("battle zone");
+        battle.initiated = true;
+        break;
+      }
+    }
+  }
+
+
 
   if (keys.w.pressed && lastKey === "w") {
     player.image = player.sprites.up;
     player.moving = true;
+
+    //*! el for loop es para marcar dónde son los límites
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -170,7 +240,8 @@ const animate = () => {
         break;
       }
     }
-    if (moving)
+
+    if (moving) //*! esto mueve la posición de todos los objetos de movables hacia arriba solo si es positivo si hay colisión se marca en false 
       movables.forEach((movable) => {
         movable.position.y += 3;
       });
