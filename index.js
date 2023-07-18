@@ -95,6 +95,7 @@ const player = new Sprite({
   image: playerDownImage,
   frames: {
     max: 4,
+    hold: 10,
   },
   sprites: {
     up: playerUpImage,
@@ -159,7 +160,8 @@ const battle = {
 };
 
 const animate = () => {
-  window.requestAnimationFrame(animate);
+  const animationId = window.requestAnimationFrame(animate); //*! funciona igual que antes solo guardamos el animation Frame dentro de ese const para despues detenerlo con window.cancelAnimationFrame para cambiar de escenario
+
   background.draw();
 
   //*! recuerda los pasos que hiciste en boundaries ya contiene objetos con la función de dibujo en el canvas
@@ -178,7 +180,7 @@ const animate = () => {
   foregroundObjs.draw();
 
   let moving = true; // los límites comienza como que sí se puede mover al menos que toque un límite
-  player.moving = false;
+  player.animate = false;
 
   //*! detener toda esta animación si inició una batalla
   if (battle.initiated) return;
@@ -209,17 +211,38 @@ const animate = () => {
         Math.random() < 0.02 //* esto es para que no siempre ocurra la batalla si no que de cierta forma sea un evento inusual
       ) {
         console.log("battle zone");
+
+        //DEACTIVATE CURRENT ANIMATION LOOP
+        window.cancelAnimationFrame(animationId); //*! esto está aquí y no abajo porque estamos manejando animaciones frame por frame entonces al poner lo de la pantalla que parpadea ya pasaron varios frames por lo que estaríamos intentando desactivar el frame pasado
         battle.initiated = true;
+        gsap.to("#overlappingDiv", {
+          opacity: 1,
+          repeat: 3,
+          yoyo: true,
+          duration: 0.4,
+          onComplete() {
+            gsap.to("#overlappingDiv", {
+              opacity: 1,
+              duration: 0.4,
+              onComplete() {
+                //ACTIVATE NEW ANIMATION LOOP
+                animateBattle();
+                gsap.to("#overlappingDiv", {
+                  opacity: 0,
+                  duration: 0.4,
+                });
+              },
+            });
+          },
+        });
         break;
       }
     }
   }
 
-
-
   if (keys.w.pressed && lastKey === "w") {
     player.image = player.sprites.up;
-    player.moving = true;
+    player.animate = true;
 
     //*! el for loop es para marcar dónde son los límites
     for (let i = 0; i < boundaries.length; i++) {
@@ -241,13 +264,14 @@ const animate = () => {
       }
     }
 
-    if (moving) //*! esto mueve la posición de todos los objetos de movables hacia arriba solo si es positivo si hay colisión se marca en false 
+    if (moving)
+      //*! esto mueve la posición de todos los objetos de movables hacia arriba solo si es positivo si hay colisión se marca en false
       movables.forEach((movable) => {
         movable.position.y += 3;
       });
   } else if (keys.a.pressed && lastKey === "a") {
     player.image = player.sprites.left;
-    player.moving = true;
+    player.animate = true;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -272,7 +296,7 @@ const animate = () => {
       });
   } else if (keys.d.pressed && lastKey === "d") {
     player.image = player.sprites.right;
-    player.moving = true;
+    player.animate = true;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -297,7 +321,7 @@ const animate = () => {
       });
   } else if (keys.s.pressed && lastKey === "s") {
     player.image = player.sprites.down;
-    player.moving = true;
+    player.animate = true;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -323,7 +347,59 @@ const animate = () => {
   }
 };
 
-animate();
+// animate();
+
+const battleBackgroundImage = new Image();
+battleBackgroundImage.src = "./img/figth/battleBackground.png";
+
+const draggleImage = new Image();
+draggleImage.src = "./img/figth/draggleSprite.png";
+
+const embySpriteImage = new Image();
+embySpriteImage.src = "./img/figth/embySprite.png";
+
+const battleBackground = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  image: battleBackgroundImage,
+});
+
+const draggle = new Sprite({
+  position: {
+    x: 800,
+    y: 100,
+  },
+  image: draggleImage,
+  frames: {
+    max: 4,
+    hold: 30,
+  },
+  animate: true,
+});
+
+const embySprite = new Sprite({
+  position: {
+    x: 300,
+    y: 320,
+  },
+  image: embySpriteImage,
+  frames: {
+    max: 4,
+    hold: 30,
+  },
+  animate: true,
+});
+
+function animateBattle() {
+  window.requestAnimationFrame(animateBattle);
+  battleBackground.draw();
+  embySprite.draw();
+  draggle.draw();
+}
+// animate()
+animateBattle();
 
 let lastKey = "";
 window.addEventListener("keydown", (e) => {
