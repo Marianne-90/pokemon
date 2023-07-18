@@ -355,8 +355,8 @@ battleBackgroundImage.src = "./img/figth/battleBackground.png";
 const draggleImage = new Image();
 draggleImage.src = "./img/figth/draggleSprite.png";
 
-const embySpriteImage = new Image();
-embySpriteImage.src = "./img/figth/embySprite.png";
+const embyImage = new Image();
+embyImage.src = "./img/figth/embySprite.png";
 
 const battleBackground = new Sprite({
   position: {
@@ -377,14 +377,15 @@ const draggle = new Sprite({
     hold: 30,
   },
   animate: true,
+  isEnemy: true,
 });
 
-const embySprite = new Sprite({
+const emby = new Sprite({
   position: {
     x: 300,
     y: 320,
   },
-  image: embySpriteImage,
+  image: embyImage,
   frames: {
     max: 4,
     hold: 30,
@@ -392,14 +393,47 @@ const embySprite = new Sprite({
   animate: true,
 });
 
+const renderedSprites = [draggle, emby]; //*! esto es para dibujar cosas ya sea temporales o fijas, así da más control tanto para que desaparezcan como para el órden por ejemplo si quieres que algo esté detrás
+
 function animateBattle() {
   window.requestAnimationFrame(animateBattle);
   battleBackground.draw();
-  embySprite.draw();
+  emby.draw();
   draggle.draw();
+
+  renderedSprites.forEach((sprite) => {
+    sprite.draw();
+  });
 }
 // animate()
 animateBattle();
+
+// los event listeners para los botones de ataque
+document.querySelectorAll("button").forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const selectedAttack = attacks[e.currentTarget.innerHTML];
+
+    emby.attack({
+      attack: {
+        name: selectedAttack.name,
+        damage: selectedAttack.damage,
+        type: selectedAttack.type,
+      },
+      recipient: draggle,
+      renderedSprites,
+    });
+
+    // draggle.attack({
+    //   attack: {
+    //     name: selectedAttack.name,
+    //     damage: selectedAttack.damage,
+    //     type: selectedAttack.type,
+    //   },
+    //   recipient: emby,
+    //   renderedSprites,
+    // });
+  });
+});
 
 let lastKey = "";
 window.addEventListener("keydown", (e) => {

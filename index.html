@@ -72,20 +72,17 @@
         <h1>Draggle</h1>
         <div style="position: relative">
           <div
-            style="
-              height: 5px;
-              background-color: #ccc;
-              margin-top: 10px;
-            "
+            style="height: 5px; background-color: #ccc; margin-top: 10px"
           ></div>
           <div
+            id="enemyHealthBar"
             style="
               height: 5px;
               background-color: green;
               position: absolute;
-              top:0;
-              left:0;
-              right:0;
+              top: 0;
+              left: 0;
+              right: 0;
             "
           ></div>
         </div>
@@ -96,7 +93,7 @@
           background-color: white;
           width: 250px;
           position: absolute;
-          top: 200px;
+          top: 350px;
           left: 700px;
           border: 4px black solid;
           padding: 12px;
@@ -105,20 +102,17 @@
         <h1>Emby</h1>
         <div style="position: relative">
           <div
-            style="
-              height: 5px;
-              background-color: #ccc;
-              margin-top: 10px;
-            "
+            style="height: 5px; background-color: #ccc; margin-top: 10px"
           ></div>
           <div
+            id="playerHealthBar"
             style="
               height: 5px;
               background-color: green;
               position: absolute;
-              top:0;
-              left:0;
-              right:0;
+              top: 0;
+              left: 0;
+              right: 0;
             "
           ></div>
         </div>
@@ -139,12 +133,27 @@
           display: flex;
         "
       >
-      <!-- BOTONES DE ATAQUE -->
+        <div
+        id="dialogBox";
+          style="
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            background-color: white;
+            padding: 12px;
+            display: none;
+          "
+        >
+          jkfnsd
+        </div>
+        <!-- BOTONES DE ATAQUE -->
         <div
           style="width: 66.66%; display: grid; grid-template-columns: 1fr 1fr"
         >
-          <button>Attack1</button>
-          <button>Attack2</button>
+          <button>Tackle</button>
+          <button>Fireball</button>
         </div>
 
         <!-- NOMBRE DEL ATAQUE -->
@@ -169,6 +178,7 @@
     ></script>
     <script src="data/battleZonesData.js"></script>
     <script src="data/collitions.js"></script>
+    <script src="data/attacks.js"></script>
     <script src="classes.js"></script>
     <script src="index.js"></script>
   </body>

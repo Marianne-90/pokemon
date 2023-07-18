@@ -6,6 +6,8 @@ class Sprite {
     frames = { max: 1, hold: 10 },
     sprites,
     animate = false,
+    isEnemy = false,
+    rotation = 0,
   }) {
     this.position = position;
     this.velocity = velocity;
@@ -18,9 +20,28 @@ class Sprite {
     };
     this.animate = animate;
     this.sprites = sprites;
+    this.opacity = 1;
+    this.health = 100;
+    this.isEnemy = isEnemy;
+    this.rotation = rotation;
   }
 
   draw() {
+    c.save(); //*! este y el restore se están añadiendo porque se va a añadir una variable que afecta todo el canvas y con esto y el restore más abajo lo que va a hacer es afectar solo esta parte
+    c.translate(
+      this.position.x + this.width / 2,
+      this.position.y + this.height / 2
+    ); //*! esto modifica el pundo central, lo que en  photoshop sería la tachita, de esta forma ya no está por default en una esquina si no a la mitad del elemento y podemos rotarmo sin efectos raros
+    c.rotate(this.rotation);
+
+    //*! hay que regresar el punto central si no los otros elementos hacen cosas raras
+    c.translate(
+      -this.position.x - this.width / 2,
+      -this.position.y - this.height / 2
+    );
+
+    c.globalAlpha = this.opacity;
+
     c.drawImage(
       this.image,
 
@@ -38,6 +59,7 @@ class Sprite {
       this.image.width / this.frames.max,
       this.image.height
     );
+    c.restore();
     if (!this.animate) return;
 
     if (this.frames.max > 1) {
@@ -50,6 +72,110 @@ class Sprite {
       } else {
         this.frames.val = 0;
       }
+    }
+  }
+
+  attack({ attack, recipient, renderedSprites }) {
+
+    document.querySelector('#dialogBox').style.display = "block";
+
+    let movementDistance = 20;
+    let healthBar = "#enemyHealthBar";
+    let rotation = 1;
+
+    if (this.isEnemy) {
+      healthBar = "#playerHealthBar";
+      movementDistance = -20;
+      rotation = -2.2;
+    }
+
+    recipient.health -= attack.damage;
+
+    switch (attack.name) {
+      case "Tackle":
+        // MOVER ATACADOR
+        const tl = gsap.timeline(); //*! esto sirve para hacer línea del tiempo
+
+        tl.to(this.position, {
+          x: this.position.x - movementDistance,
+        })
+          .to(this.position, {
+            x: this.position.x + movementDistance * 2,
+            duration: 0.1,
+            onComplete: () => {
+              // enemy gets hit in de health bar
+              gsap.to(healthBar, {
+                width: recipient.health + "%",
+              });
+
+              gsap.to(recipient.position, {
+                x: recipient.position.x + 10,
+                yoyo: true,
+                repeat: 5,
+                duration: 0.08,
+              });
+
+              gsap.to(recipient, {
+                opacity: 0,
+                repeat: 5,
+                yoyo: true,
+                duration: 0.08,
+              });
+            },
+          })
+          .to(this.position, {
+            x: this.position.x,
+          });
+
+        break;
+      case "Fireball":
+        // hacemos el Sprite de la bola de fuego
+
+        const fireballImage = new Image();
+        fireballImage.src = "./img/figth/fireball.png";
+
+        const fireball = new Sprite({
+          position: { x: this.position.x, y: this.position.y },
+          image: fireballImage,
+          frames: {
+            max: 4,
+            hold: 10,
+          },
+          animate: true,
+          rotation,
+        });
+
+        renderedSprites.splice(1, 0, fireball);
+
+        gsap.to(fireball.position, {
+          x: recipient.position.x,
+          y: recipient.position.y,
+          onComplete: () => {
+            // enemy gets hit in de health bar
+            gsap.to(healthBar, {
+              width: recipient.health + "%",
+            });
+
+            gsap.to(recipient.position, {
+              x: recipient.position.x + 10,
+              yoyo: true,
+              repeat: 5,
+              duration: 0.08,
+            });
+
+            gsap.to(recipient, {
+              opacity: 0,
+              repeat: 5,
+              yoyo: true,
+              duration: 0.08,
+            });
+            renderedSprites.splice(1, 1);
+          },
+        });
+
+        break;
+      default:
+        break;
     }
   }
 }
