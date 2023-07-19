@@ -208,7 +208,7 @@ const animate = () => {
           rectangle2: battleZone,
         }) &&
         overlappingArea > (player.width * player.height) / 2 && // se divide entre dos para que sea el tamaño del personaje a la mitad lo que debe de rebazar y no el personaje completo
-        Math.random() < 0.2 //* esto es para que no siempre ocurra la batalla si no que de cierta forma sea un evento inusual
+        Math.random() < 0.05 //* esto es para que no siempre ocurra la batalla si no que de cierta forma sea un evento inusual
       ) {
         //DEACTIVATE CURRENT ANIMATION LOOP
         window.cancelAnimationFrame(animationId); //*! esto está aquí y no abajo porque estamos manejando animaciones frame por frame entonces al poner lo de la pantalla que parpadea ya pasaron varios frames por lo que estaríamos intentando desactivar el frame pasado
