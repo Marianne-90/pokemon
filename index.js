@@ -208,12 +208,15 @@ const animate = () => {
           rectangle2: battleZone,
         }) &&
         overlappingArea > (player.width * player.height) / 2 && // se divide entre dos para que sea el tamaño del personaje a la mitad lo que debe de rebazar y no el personaje completo
-        Math.random() < 0.02 //* esto es para que no siempre ocurra la batalla si no que de cierta forma sea un evento inusual
+        Math.random() < 0.2 //* esto es para que no siempre ocurra la batalla si no que de cierta forma sea un evento inusual
       ) {
-        console.log("battle zone");
-
         //DEACTIVATE CURRENT ANIMATION LOOP
         window.cancelAnimationFrame(animationId); //*! esto está aquí y no abajo porque estamos manejando animaciones frame por frame entonces al poner lo de la pantalla que parpadea ya pasaron varios frames por lo que estaríamos intentando desactivar el frame pasado
+
+        audio.Map.stop();
+        audio.initBattle.play();
+        audio.battle.play();
+
         battle.initiated = true;
         gsap.to("#overlappingDiv", {
           opacity: 1,
@@ -226,6 +229,7 @@ const animate = () => {
               duration: 0.4,
               onComplete() {
                 //ACTIVATE NEW ANIMATION LOOP
+                initBattle();
                 animateBattle();
                 gsap.to("#overlappingDiv", {
                   opacity: 0,
@@ -347,9 +351,10 @@ const animate = () => {
   }
 };
 
-// animate();
-animateBattle();
+animate();
 
+// initBattle();
+// animateBattle();
 let lastKey = "";
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
@@ -396,5 +401,15 @@ window.addEventListener("keyup", (e) => {
 
     default:
       break;
+  }
+});
+
+let clicked = false;
+
+window.addEventListener("click", (e) => {
+  if (!clicked) {
+
+    audio.Map.play();
+    clicked = true;
   }
 });

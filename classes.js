@@ -10,13 +10,17 @@ class Sprite {
   }) {
     this.position = position;
     this.velocity = velocity;
-    this.image = image;
+
     this.frames = { ...frames, val: 0, elapsed: 0 };
 
+    this.image = new Image();
     this.image.onload = () => {
       this.width = this.image.width / this.frames.max;
       this.height = this.image.height;
     };
+    //*! si revizas el código verás que no todo está de esta forma y puede funcionar de ambas pero si tienes problemas con que no aparezca reviza como se envió todo con los monstruos
+    this.image.src = image.src; //*! eso evita el problema de que la imagen no aparezca cuando ponemos el on load en otras palabras no se estaba renderizando a tiempo
+
     this.animate = animate;
     this.sprites = sprites;
     this.opacity = 1;
@@ -110,7 +114,14 @@ class Monster extends Sprite {
 
     gsap.to(this, {
       opacity: 0,
+      onComplete: () => {
+        gsap.to(this.position, {
+          y: this.position.y - 20,
+        });
+      },
     });
+    audio.battle.stop();
+    audio.victory.play();
   }
   attack({ attack, recipient, renderedSprites }) {
     const d = document.querySelector("#dialogBox");
@@ -142,6 +153,8 @@ class Monster extends Sprite {
             duration: 0.1,
             onComplete: () => {
               // enemy gets hit in de health bar
+              audio.tackeHit.play();
+
               gsap.to(healthBar, {
                 width: recipient.health + "%",
               });
@@ -168,7 +181,7 @@ class Monster extends Sprite {
         break;
       case "Fireball":
         // hacemos el Sprite de la bola de fuego
-
+        audio.initFireball.play();
         const fireballImage = new Image();
         fireballImage.src = "./img/figth/fireball.png";
 
@@ -190,6 +203,7 @@ class Monster extends Sprite {
           y: recipient.position.y,
           onComplete: () => {
             // enemy gets hit in de health bar
+            audio.fireballHit.play();
             gsap.to(healthBar, {
               width: recipient.health + "%",
             });
