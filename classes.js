@@ -6,7 +6,6 @@ class Sprite {
     frames = { max: 1, hold: 10 },
     sprites,
     animate = false,
-    isEnemy = false,
     rotation = 0,
   }) {
     this.position = position;
@@ -21,8 +20,6 @@ class Sprite {
     this.animate = animate;
     this.sprites = sprites;
     this.opacity = 1;
-    this.health = 100;
-    this.isEnemy = isEnemy;
     this.rotation = rotation;
   }
 
@@ -74,10 +71,51 @@ class Sprite {
       }
     }
   }
+}
 
+class Monster extends Sprite {
+  constructor({
+    position,
+    velocity,
+    image,
+    frames = { max: 1, hold: 10 },
+    sprites,
+    animate = false,
+    rotation = 0,
+    isEnemy = false,
+    name,
+    attacks,
+  }) {
+    super({
+      position,
+      velocity,
+      image,
+      frames,
+      sprites,
+      animate,
+      rotation,
+    });
+    this.health = 100;
+    this.isEnemy = isEnemy;
+    this.name = name; //*! esto es el nombre del bicho y se usará para el diálogo
+    this.attacks = attacks;
+  }
+  faint() {
+    const d = document.querySelector("#dialogBox");
+    d.innerHTML = this.name + " fainted!";
+
+    gsap.to(this.position, {
+      y: this.position.y + 20,
+    });
+
+    gsap.to(this, {
+      opacity: 0,
+    });
+  }
   attack({ attack, recipient, renderedSprites }) {
-
-    document.querySelector('#dialogBox').style.display = "block";
+    const d = document.querySelector("#dialogBox");
+    d.style.display = "block";
+    d.innerHTML = this.name + " used " + attack.name;
 
     let movementDistance = 20;
     let healthBar = "#enemyHealthBar";
